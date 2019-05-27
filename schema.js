@@ -7,7 +7,8 @@ const
   GraphQLInt = graphql.GraphQLInt,
   GraphQLString = graphql.GraphQLString,
   GraphQLList = graphql.GraphQLList,
-  GraphQLSchema = graphql.GraphQLSchema;
+  GraphQLSchema = graphql.GraphQLSchema,
+  GraphQLNonNull = graphql.GraphQLNonNull;
 const Db = require('./db');
 
 const Person = new GraphQLObjectType({
@@ -38,6 +39,12 @@ const Person = new GraphQLObjectType({
         resolve(person) {
           return person.email
         }
+      },
+      posts: {
+        type: GraphQLList(Post),
+        resolve(person){
+          return person.getPosts();
+        }
       }
     }
   }
@@ -63,6 +70,12 @@ const Post = new GraphQLObjectType({
         type: GraphQLString,
         resolve(post) {
           return post.content
+        }
+      },
+      person: {
+        type: Person,
+        resolve(post){
+          return post.getPerson();
         }
       }
     }
@@ -112,8 +125,39 @@ const Query = new GraphQLObjectType({
   }
 });
 
+const Mutation = new GraphQLObjectType({
+  name: "Mutation",
+  description: "Function to create stuff",
+  fields() {
+    return {
+      addPerson: {
+        type: Person,
+        args: {
+          firstName: {
+            type: new GraphQLNonNull(GraphQLString)
+          },
+          lastName: {
+            type: new GraphQLNonNull(GraphQLString)
+          },
+          email: {
+            type: new GraphQLNonNull(GraphQLString)
+          }
+        },
+        resolve(_, args){
+          return Db.models.person.create({
+            firstName: args.firstName,
+            lastName: args.lastName,
+            email: args.email.toLowerCase()
+          });
+        }
+      }
+    }
+  }
+});
+
 const Schema = new GraphQLSchema({
-  query: Query
+  query: Query,
+  mutation: Mutation
 });
 
 
