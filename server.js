@@ -6,8 +6,6 @@ const Express = require('express');
 const GraphHTTP = require('express-graphql');
 const Schema = require('./schema').Schema;
 
-console.log(Schema)
-
 const APP_PORT = process.env.PORT || 3000;
 
 const app = Express();

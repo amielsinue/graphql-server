@@ -1,17 +1,28 @@
 const Sequelize = require('sequelize');
 const _  = require('lodash');
 const Faker = require('faker');
+var Conn = null;
 
-const Conn = new Sequelize(
-  'relay',
-  'postgres',
-  'postgres',
-  {
+if (process.env.HEROKU_POSTGRESQL_BRONZE_URL) {
+  // the application is executed on Heroku ... use the postgres database
+  Conn = new Sequelize(process.env.HEROKU_POSTGRESQL_BRONZE_URL, {
     dialect: 'postgres',
-    host: 'localhost'
-  }
-);
-
+    protocol: 'postgres',
+    port: match[4],
+    host: match[3],
+    logging: true //false
+  });
+} else {
+  Conn = new Sequelize(
+    'relay',
+    'postgres',
+    'postgres',
+    {
+      dialect: 'postgres',
+      host: 'localhost'
+    }
+  );
+}
 const Person = Conn.define('person', {
   firstName: {
     type: Sequelize.STRING,
