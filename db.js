@@ -61,3 +61,4 @@ Conn.sync({force: true}).then(() => {
   });
 });
 
+module.exports = Conn
