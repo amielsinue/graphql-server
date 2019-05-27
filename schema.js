@@ -1,14 +1,14 @@
 /**
  * Created by ayanez on 5/25/19.
  */
-import {
-  GraphQLObjectType,
-  GraphQLInt,
-  GraphQLString,
-  GraphQLList,
-  GraphQLSchema
-} from 'graphql'
-import Db from './db';
+const graphql = require('graphql');
+const
+  GraphQLObjectType = graphql.GraphQLObjectType,
+  GraphQLInt = graphql.GraphQLInt,
+  GraphQLString = graphql.GraphQLString,
+  GraphQLList = graphql.GraphQLList,
+  GraphQLSchema = graphql.GraphQLSchema;
+const Db = require('./db');
 
 
 const Person = new GraphQLObjectType({
@@ -88,6 +88,17 @@ const Query = new GraphQLObjectType({
                 resolve(root, args) {
                     return Db.models.person.findAll({where: args});
                 }
+            },
+            posts: {
+              type: GraphQLList(Post),
+              args: {
+                id: {
+                  type: GraphQLInt
+                },
+                title:{
+
+                }
+              }
             }
         }
     }
@@ -98,4 +109,4 @@ const Schema = new GraphQLSchema({
 });
 
 
-export default Schema;
+

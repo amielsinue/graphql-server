@@ -2,12 +2,12 @@
  * Created by ayanez on 5/27/19.
  */
 
-import Express from 'express';
-import GraphHTTP from 'express-graphql';
-import Schema from './schema';
+const Express = require('express');
+const GraphHTTP = require('express-graphql');
+const Schema = require('./schema');
 
 
-const APP_PORT = 3000;
+const APP_PORT = process.env.PORT || 3000;
 
 const app = Express();
 

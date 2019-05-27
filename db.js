@@ -1,6 +1,6 @@
-import Sequelize from 'sequelize';
-import _ from 'lodash';
-import Faker from 'faker';
+const Sequelize = require('sequelize');
+const _  = require('lodash');
+const Faker = require('faker');
 
 const Conn = new Sequelize(
   'relay',
@@ -61,4 +61,3 @@ Conn.sync({force: true}).then(() => {
   });
 });
 
-export default Conn;
