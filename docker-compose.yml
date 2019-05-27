@@ -1,0 +1,9 @@
+version: '2'
+services:
+  postgresql:
+    image: postgres:9.6
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=relay
+    ports:
+      - "5432:5432"
