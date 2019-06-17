@@ -4,6 +4,42 @@ services:
     image: postgres:9.6
     environment:
       - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=relay
     ports:
       - "5432:5432"
+
+    volumes:
+      - postgresdb:/var/lib/postgresql/data
+
+  mint_access:
+    image: postgres:9.6
+    environment:
+      - POSTGRES_USER=mint_admin
+      - POSTGRES_PASSWORD=pwd4mint
+      - POSTGRES_DB=mint_access_control
+    ports:
+      - "5433:5432"
+
+    volumes:
+      - mint_access_db:/var/lib/postgresql/data
+
+  mint_structured:
+    image: postgres:9.6
+    environment:
+      - POSTGRES_USER=mint_admin
+      - POSTGRES_PASSWORD=pwd4mint
+      - POSTGRES_DB=mint_structured_data
+    ports:
+      - "5434:5432"
+
+    volumes:
+      - mint_structured_db:/var/lib/postgresql/data
+
+volumes:
+  postgresdb:
+    driver: 'local'
+  mint_access_db:
+    driver: 'local'
+  mint_structured_db:
+    driver: 'local'
